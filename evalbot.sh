@@ -36,13 +36,16 @@ do
 			NICK="$NICK"'_'
 			onconnect
 			;;
+		INVITE)
+			send "JOIN $TXT"
+			;;
 		PRIVMSG)
 			eval set $TXT
 			[[ "$1" == "$NICK:" ]] &&
 				${@:2} | while read -r outp
 							do
 								send "PRIVMSG $PAR :$outp"
-							done
+							done &
 	esac
 
 done
