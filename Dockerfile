@@ -1,5 +1,5 @@
 FROM alpine:latest
-RUN apk add libressl zsh
+RUN apk add openssl zsh
 WORKDIR /evalbot
 ADD . /evalbot
-CMD ["zsh evalbot.sh","irc.tilde.chat:6697","evalbot","#chaos"]
+CMD ["zsh","evalbot.sh","irc.tilde.chat:6697","evalbot","#chaos"]
