@@ -39,7 +39,7 @@ do
 		PRIVMSG)
 			eval set $TXT
 			[[ "$1" == "$NICK:" ]] &&
-				zsh -c "${@:2}" | while read -r outp
+				${@:2} | while read -r outp
 							do
 								send "PRIVMSG $PAR :$outp"
 							done

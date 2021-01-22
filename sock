@@ -1,5 +1,0 @@
-USER honker 0 * :shell evaluation bot
-
-NICK honker
-JOIN #chaos
-PRIVMSG #chaos :
