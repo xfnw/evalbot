@@ -13,6 +13,7 @@ echo "> $1"
 printf "%b\r\n" "$1" >> sock
 }
 
+
 echo -e "USER $NICK 0 * :shell evaluation bot\r\n" > sock
 onconnect
 
@@ -21,35 +22,8 @@ do
 	line=$(printf %b "$raw" | tr -d $'\r')
 
 	echo "< $line"
-	
-	first="YES"
-	long="NO"
+	source tokenize.sh "$line"
 
-	SOURCE=""
-	PAR=""
-	TXT=""
-
-	echo "$line" | tr " " "\n" | while read -r token
-	do
-		if [[ "$long" == "YES" ]]; then
-			TXT="$TXT $token"
-		else
-			if [[ $token =~ ^: ]]; then
-				if [[ "$first" == "YES" ]]
-				then
-					SOURCE="${token:1:512}"
-				else
-					long="YES"
-					TXT="${token:1:512}"
-				fi
-			else
-				[[ "a$CMD" == "a" ]] && CMD="$token" || PAR="$PAR $token"
-			fi
-		fi
-		first="NO"
-	done
-
-	echo "source $SOURCE cmd $CMD par $PAR txt $TXT"
 
 	case "$CMD" in
 		PING)
@@ -63,7 +37,12 @@ do
 			onconnect
 			;;
 		PRIVMSG)
-			send "PRIVMSG $PAR :$TXT hello $SOURCE"
+			eval set $TXT
+			[[ "$1" == "$NICK:" ]] &&
+				sh -c "${@:2}" | while read -r outp
+							do
+								send "PRIVMSG $PAR :$outp"
+							done
 	esac
 
 done
