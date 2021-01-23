@@ -24,7 +24,6 @@ do
 	echo "< $line"
 	source tokenize.sh "$line"
 
-
 	case "$CMD" in
 		PING)
 			send "PONG :$PAR$TXT"
@@ -47,5 +46,6 @@ do
 								send "PRIVMSG $PAR :$outp"
 							done &
 	esac
+	eval set honk honk honk honk # clear the number vars so it wont repeat itself
 
 done
