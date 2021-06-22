@@ -39,8 +39,7 @@ do
 			send "JOIN $TXT"
 			;;
 		PRIVMSG)
-			eval set $TXT
-			[[ "$1" == "$NICK:" ]] &&
+			[[ "${TXT%% *}" == "$NICK:" ]] &&
 				zsh -c "${TXT#* }" 2>&1 | while IFS= read -r outp
 							do
 								send "PRIVMSG $PAR :$outp"
